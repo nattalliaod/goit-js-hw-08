@@ -5,10 +5,15 @@ const refs = {
   inputEmail: document.querySelector('input'),
   textarea: document.querySelector('textarea'),
 }
+
+const STORAGE_KEY = 'feedback-form-state';
+
 refs.form.addEventListener('submit', onFormSubmit);
 // refs.inputEmail.addEventListener('input', throttle(onInputValue, 200));
 // refs.textarea.addEventListener('input', throttle(onInputValue, 200));
 refs.form.addEventListener('input', throttle(onForminput, 200));
+
+populateTextarea();
 
 const formData = {};
 
@@ -19,10 +24,6 @@ function onForminput (e) {
     console.log(formData);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 }
-
-const STORAGE_KEY = 'feedback-form-state';
-
-populateTextarea();
 
 function onFormSubmit (e) {
    e.preventDefault();
@@ -39,8 +40,9 @@ function onFormSubmit (e) {
 
 function populateTextarea() {
   const savedMessage = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    console.log(savedMessage);
+    
   if (savedMessage) {
+      console.log(savedMessage);
     refs.inputEmail.value = savedMessage.email;
     refs.textarea.value = savedMessage.message;
   } 
